@@ -35,11 +35,6 @@ import supybot.log as log
 from bs4 import BeautifulSoup
 
 try:
-    from urllib.request import urlopen
-except ImportError:
-    from urllib2 import urlopen
-
-try:
     from supybot.i18n import PluginInternationalization
     _ = PluginInternationalization('RCP')
 except ImportError:
@@ -51,6 +46,9 @@ except ImportError:
 class RCP(callbacks.Plugin):
     """Display results of RealClearPolitics polling summaries"""
     threaded = True
+
+    # TODO: poll url at end
+    # TODO: check for correct URL domain
 
     def get_poll_data(self, url):
         # Parsing code modified from Anthony Bloomer https://github.com/AnthonyBloomer/rcp
@@ -84,7 +82,7 @@ class RCP(callbacks.Plugin):
 
         return poll_summary
 
-    def avg(self, irc, msg, args, rcp_url):
+    def rcp(self, irc, msg, args, rcp_url):
         """Load a RealClearPolitics polling URL and display the top-line average"""
         log.debug('avg called')
         poll_data = self.get_poll_data(rcp_url)
@@ -101,9 +99,8 @@ class RCP(callbacks.Plugin):
         response_str = ' | '.join(response)
 
         irc.reply(f'{ircutils.bold(poll_data["title"])} {poll_data["Date"]} | {response_str}')
-        print(list(poll_data.keys()))
-        print(poll_data.keys())
-    avg = wrap(avg, ['url'])
+
+    rcp = wrap(rcp, ['url'])
 
 
 Class = RCP

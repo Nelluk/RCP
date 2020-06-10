@@ -98,7 +98,7 @@ class RCP(callbacks.Plugin):
 
         response_str = ' | '.join(response)
 
-        irc.reply(f'{ircutils.bold(poll_data["title"])} {poll_data["Date"]} | {response_str}')
+        irc.reply(f'{ircutils.bold(poll_data["title"])} {poll_data["Date"]} | {response_str} | {rcp_url}')
 
     rcp = wrap(rcp, ['url'])
 
